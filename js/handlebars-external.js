@@ -14,7 +14,3 @@ Handlebars.getTemplate = function(name) {
 	}
 	return Handlebars.templates[name];
 };
-
-var compiledTemplate = Handlebars.getTemplate('navbar');
-var html = compiledTemplate({ name : 'World' });
-jQuery('#navbar').html(html);
