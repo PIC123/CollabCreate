@@ -29,18 +29,15 @@ jQuery(document).ready(function () {
   CollabCreate.navigate(url);
 
   // Single-page app navigation
-  jQuery('a[rel=external]').not('.external-processed').addClass('external-processed').click(function (e) {
-    window.open(jQuery(this).attr('href'));
-    e.preventDefault();
-  });
-
   jQuery('body').on("click", 'a', function(e) {
     var link = jQuery(this);
     if (link.attr('rel') == 'external') {
-      return;
+      window.open(jQuery(this).attr('href'));
     }
-    var url = link.attr('href');
-    CollabCreate.navigate(url);
+    else {
+      var url = link.attr('href');
+      CollabCreate.navigate(url);
+    }
     e.preventDefault();
   });
 });
