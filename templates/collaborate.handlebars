@@ -82,12 +82,13 @@
 CollabCreate.pageReady.collaborate = function() {
   jQuery('#filterForMe').bootstrapToggle();
 
-  var params = { projects: [] };
+  var projects = [];
+  var params = {};
   var Project = Parse.Object.extend("Project");
   var query = new Parse.Query(Project).find({
     success: function(results) {
       results.forEach(function (project) {
-        params.projects.push({
+        projects.push({
           id: project.id,
           name: project.get('name'),
           shortBio: project.get('shortBio'),
@@ -96,14 +97,17 @@ CollabCreate.pageReady.collaborate = function() {
       });
 
       var compiledTemplate = Handlebars.getTemplate('projectTile');
+      params.projects = _.sample(projects, 5);
       var renderedHtml = compiledTemplate(params);
       jQuery('#recommended .repeater').html(renderedHtml);
 
       var compiledTemplate = Handlebars.getTemplate('projectTile');
+      params.projects = _.sample(projects, 5);
       var renderedHtml = compiledTemplate(params);
       jQuery('#featured .repeater').html(renderedHtml);
 
       var compiledTemplate = Handlebars.getTemplate('projectTile');
+      params.projects = _.sample(projects, 5);
       var renderedHtml = compiledTemplate(params);
       jQuery('#trending .repeater').html(renderedHtml);
     },
