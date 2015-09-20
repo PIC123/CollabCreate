@@ -16,10 +16,11 @@ if (!String.prototype.format) {
 CollabCreate = {};
 CollabCreate.renderers = {};
 CollabCreate.renderers.navbar = function() {
-  var params = { profileUrl : 'images/profile.png' };
+  var params = {};
   params.authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
   if (params.authenticated) {
     params.username = Parse.User.current().getUsername();
+    params.profileUrl = Parse.User.current().get("profilePicture").url();
   }
   var compiledTemplate = Handlebars.getTemplate('navbar');
   var renderedHtml = compiledTemplate(params);

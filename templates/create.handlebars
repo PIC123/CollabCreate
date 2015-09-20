@@ -1,6 +1,6 @@
 <h1 class="title">Create a Project</h1>
 <div class="project-fields">
-	<form id="create">
+	<form id="createForm">
 		<div class="form-group">
   		<label for="projectTitle">Project Title</label>
   		<input type="text" class="form-control" name="projectTitle">
@@ -15,19 +15,14 @@
  		</div>
  		<div class="form-group skills">
   		<label for="skillList">Skills Needed</label>
-  		<input type="text" class="form-control skills-autocomplete" name="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc...." />
+  		<input type="text" class="form-control skills-autocomplete" name="skillList" placeholder="Add a new skill..." />
   		<br/>
   		<div class="skill-tags">
 			</div>
 		</div>
 		<div class="form-group locations">
-  		<label for="setLocation">Set Location</label>
-  		<input type="text" class="form-control" id="setLocation" placeholder="Boston, London, Tokyo, Europe, etc....">
-  		<br/>
-  		<span class="tag label label-info">
-  	  		<span>Earth!</span>
-  	  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
-  		</span>
+  		<label for="setLocation">Set Location(s)</label>
+  		<input type="text" class="form-control" id="setLocation" placeholder="e.g. Boston, London, Europe, etc...">
 		</div>
 		<div class="form-group">
 			<label>Time Frame</label><br/>
@@ -58,11 +53,11 @@
 
 <script type="text/javascript">
 initializeSkillsAutocomplete();
+initializeSkillsRemove();
 
 CollabCreate.pageReady.create = function() {
-  initializeSkillsRemove();
 
-  jQuery('#create').submit(function(e) {
+  jQuery('#createForm').submit(function(e) {
     var title = jQuery('input[name=projectTitle]').val();
     var shortDesc = jQuery('textarea[name=shortDesc]').val();
     var fullDesc = jQuery('textarea[name=fullDesc]').val();

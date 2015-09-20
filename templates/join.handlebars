@@ -1,11 +1,11 @@
 <h1>Get ready to make the most of projects.</h1>
 
-<form method="post" class="col-md-4" id="join">
+<form method="post" class="col-md-4" id="joinForm">
   <p id="errors" class="bg-danger"></p>
 
   <div class="form-group">
     <label for="username">Username:</label>
-    <input type="text" name="username" placeholder="prestigeworldwide" class="form-control" />
+    <input type="text" name="username" class="form-control" />
   </div>
 
   <div class="form-group">
@@ -15,12 +15,12 @@
 
   <div class="form-group">
     <label for="email">Email:</label>
-    <input type="email" name="email" placeholder="brennan@prestigeworldwide.com" class="form-control" />
+    <input type="email" name="email" class="form-control" />
   </div>
 
   <div class="form-group">
-    <label for="location">Location:</label>
-    <input type="text" name="location" placeholder="On my dad's boat" class="form-control" />
+    <label for="location">Location(s):</label>
+    <input type="text" name="location" placeholder="e.g. Boston, London, Europe, etc." class="form-control" />
   </div>
 
   <div class="form-group">
@@ -74,11 +74,10 @@ var signUpUser = function(newUser, username, password) {
 }
 
 initializeSkillsAutocomplete();
+initializeSkillsRemove();
 
 CollabCreate.pageReady.join = function() {
-  initializeSkillsRemove();
-
-  jQuery('#join').submit(function(e) {
+  jQuery('#joinForm').submit(function(e) {
     // Recover values
     var username = jQuery('input[name=username]').val();
     var password = jQuery('input[name=password]').val();
