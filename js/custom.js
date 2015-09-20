@@ -14,13 +14,26 @@ if (!String.prototype.format) {
 
 // Setup our namespace
 CollabCreate = {};
-
 CollabCreate.renderers = {};
 CollabCreate.renderers.navbar = function() {
-  var authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  var params = { profileUrl : 'images/profile.png' };
+  params.authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  if (params.authenticated) {
+    params.username = Parse.User.current().getUsername();
+  }
   var compiledTemplate = Handlebars.getTemplate('navbar');
-  var navbarHtml = compiledTemplate({ authenticated: authenticated, profileUrl : 'images/profile.png' });
-  jQuery('#render-navbar').html(navbarHtml);
+  var renderedHtml = compiledTemplate(params);
+  jQuery('#render-navbar').html(renderedHtml);
+  CollabCreate.renderers.navbarActiveLinks();
+}
+CollabCreate.renderers.navbarActiveLinks = function () {
+  jQuery('#navbar li a').each(function() {
+    var link = jQuery(this);
+    link.parent().removeClass('active');
+    if (link.attr('href') == document.location.hash) {
+      link.parent().addClass('active');
+    }
+  });
 }
 
 CollabCreate.pageReady = {};
@@ -44,11 +57,15 @@ CollabCreate.pageReady.document = function () {
     if (CollabCreate.pageReady.hasOwnProperty(newUrl)) {
       CollabCreate.pageReady[newUrl]();
     }
+    CollabCreate.renderers.navbarActiveLinks();
   });
 
   // Setup single-page app navigation
   jQuery('body').on("click", 'a', function(e) {
     var link = jQuery(this);
+    if (link.hasClass('action') || link.hasClass('dropdown-toggle')) {
+      return;
+    }
     if (link.attr('rel') == 'external') {
       window.open(jQuery(this).attr('href'));
     }
@@ -63,9 +80,8 @@ CollabCreate.pageReady.document = function () {
 jQuery(document).ready(CollabCreate.pageReady.document);
 
 CollabCreate.navigate = function(url, params) {
-  if (url == "") {
-    url = "home";
-  }
+  url = url || "home";
+  params = params || {};
 
   console.log('navigating to:', url, params);
   try {

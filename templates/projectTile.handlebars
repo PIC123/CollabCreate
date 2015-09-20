@@ -1,0 +1,13 @@
+{{#each projects}}
+  <div class="projectTile">
+    <a href="#projects/{{id}}">
+      <div class="wrapper">
+        <img src="{{imageUrl}}" />
+        <div class="overlay">
+          <div class="name">{{name}}</div>
+          <div class="shortBio">{{shortBio}}</div>
+        </div>
+      </div>
+    </a>
+  </div>
+{{/each}}

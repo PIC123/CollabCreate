@@ -1,2 +1,81 @@
-<h1 class="title">Yay!</h1>
-<p>We're so awesome.</p>
+<h1 class="title">Create a Project</h1>
+<div class="project-fields">
+	<form>
+  		<div class="form-group">
+    		<label for="projectTitle">Project Title</label>
+    		<input type="text" class="form-control" id="projectTitle">
+  		</div>
+  		<div class="form-group">
+  			<label for="shortDesc">Short Description (140 characters max)</label>
+    		<textarea class="form-control" rows="3"></textarea>
+ 		</div>
+ 		<div class="form-group">
+  			<label for="fullDesc">Full Description</label>
+    		<textarea class="form-control" rows="3"></textarea>
+ 		</div>
+ 		<div class="form-group">
+    		<label for="skillList">Skills Needed</label>
+    		<input type="text" class="form-control" id="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc....">
+    		<br/>
+			<span class="tag label label-info">
+		  		<span>Example Skill1</span>
+		  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+			</span>
+			<span class="tag label label-info">
+		  		<span>Example Skill2</span>
+		  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+			</span>
+			<span class="tag label label-info">
+		  		<span>Example Skill3</span>
+		  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+			</span>
+  		</div>
+  		<div class="form-group">
+    		<label for="setLocation">Set Location</label>
+    		<input type="text" class="form-control" id="setLocation" placeholder="Boston, London, Tokyo, Europe, etc....">
+    		<br/>
+			<span class="tag label label-info">
+		  		<span>Earth</span>
+		  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+			</span>
+  		</div>
+  		<div class="form-group">
+  			<label>Time Frame</label><br/>
+	  		<label class="radio-inline">
+			  <input type="radio" name="timeFrame" id="infinite" value="infinite"> All
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="timeFrame" id="oneWeek" value="oneWeek"> ~ a week
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="timeFrame" id="oneMonth" value="oneMonth"> ~ a month
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="timeFrame" id="sixMonths" value="sixMonths"> ~ 6 months
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="timeFrame" id="oneYear" value="oneYear"> ~ a year
+			</label>
+		</div>
+		<div class="form-group">
+    		<label for="media">Attatch Photos</label>
+    		<input type="file" id="media">
+    		<p class="help-block">The first image uploaded will be used as the profile picture</p>
+  		</div>
+  		<button type="submit" class="btn btn-default">Create</button>
+	</form>
+</div>
+
+<script type="text/javascript">
+CollabCreate.pageReady.create = function() {
+  console.log("Skills query being created...");
+  var skillsQuery = new Parse.Query("Skills");
+  console.log("Skills query created");
+  skillsQuery.find().then(function (results) {
+    $( "#skillList" ).autocomplete({
+      source: results
+    });
+  });
+};
+</script>
+
