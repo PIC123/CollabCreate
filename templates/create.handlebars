@@ -15,7 +15,7 @@
  		</div>
  		<div class="form-group" id="skills">
     		<label for="skillList">Skills Needed</label>
-    		<input type="text" class="form-control" id="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc....">
+    		<input type="text" class="form-control skills-autocomplete" id="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc....">
     		<br/>
     		<div class="skill-tags">
 				<span class="tag label label-info">
@@ -62,6 +62,7 @@
 
 <script type="text/javascript">
 CollabCreate.pageReady.create = function() {
+  initializeSkillsAutocomplete();
   console.log("Skills query being created...");
   var skillsQuery = new Parse.Query("Skills");
   console.log("Skills query created");

@@ -30,7 +30,7 @@ var initializeSkillsAutocomplete = function () {
 
     loadChunk(0).then(function () {
         _.sortBy(results, "label");
-        $( ".skillsAutocomplete" ).autocomplete({
+        $( ".skills-autocomplete" ).autocomplete({
             source: results
         });
     });
