@@ -29,7 +29,9 @@
   </div>
 
   <div class="form-group">
-    <input type="text" name="skills" placeholder="Add a new skill..." class="form-control skills-autocomplete" id="skillsAutocomplete" />
+    <input type="text" name="skills" placeholder="Add a new skill..." class="form-control skills-autocomplete" />
+    <div class="skill-tags">
+    </div>
   </div>
 
   <div class="form-group">
@@ -46,7 +48,6 @@
 </form>
 
 <script type="text/javascript">
-
 var signUpUser = function(newUser, username, password) {
   newUser.signUp(null, {
     success: function(user) {

@@ -31,6 +31,24 @@ var initializeSkillsAutocomplete = function () {
     loadChunk(0).then(function () {
         _.sortBy(results, "label");
         $( ".skills-autocomplete" ).autocomplete({
+            select: function(event, ui){
+                var outerSpan = document.createElement('span');
+                var innerSpan = document.createElement('span');
+                var a = document.createElement('a');
+                var i = document.createElement('i');
+                jQuery(i).addClass('remove').addClass('glyphicon').addClass('glyphicon-remove-sign').addClass('glyphicon-white');
+                a.appendChild(i);
+                jQuery(a).addClass('action').attr('data-value', ui.item.value);
+                innerSpan.textContent = ui.item.label;
+                innerSpan.appendChild(a);
+                outerSpan.appendChild(innerSpan);
+                jQuery(outerSpan).addClass('tag').addClass('label').addClass('label-info');
+                jQuery(".skill-tags").append(outerSpan);
+
+                // Clear string
+                jQuery(".skills-autocomplete").val("");
+                event.preventDefault();
+            },
             source: results
         });
     });

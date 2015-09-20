@@ -64,37 +64,9 @@
 initializeSkillsAutocomplete();
 
 CollabCreate.pageReady.create = function() {
-  console.log("calling init skills...");
-  console.log("Skills query being created...");
-  var skillsQuery = new Parse.Query("Skills");
-  console.log("Skills query created");
-  skillsQuery.find().then(function (results) {
-    $( "#skillList" ).autocomplete({
-      select: function(event, ui){
-      	var outerSpan = document.createElement('span');
-      	var innerSpan = document.createElement('span');
-      	var a = document.createElement('a');
-      	var i = document.createElement('i');
-      	jQuery(i).addClass('remove').addClass('glyphicon').addClass('glyphicon-remove-sign').addClass('glyphicon-white');
-      	a.appendChild(i);
-      	jQuery(a).addClass('action').attr('data-value', ui.item.value);
-      	innerSpan.appendChild(a);
-      	innerSpan.textContent = ui.item.label;
-      	outerSpan.appendChild(innerSpan);
-      	jQuery(outerSpan).addClass('tag').addClass('label').addClass('label-info');
-      },
-      source: results
-    });
-  });
-};
-</script>
-
-<script type="text/javascript">
-CollabCreate.pageReady.create = function() {
-
-  jQuery("#skills a, #locations a").click(function(){
+  jQuery("#skills,#locations").on("click", "a", function(){
   	jQuery(this).parent().remove();
-  })
+  });
 
   jQuery('#create').submit(function(e) {
     var title = jQuery('input[name=projectTitle]').val();
@@ -106,33 +78,34 @@ CollabCreate.pageReady.create = function() {
     var media = jQuery('input[name=media]').val();
 
     var Project = Parse.Object.extend("Project");
-	var project = new Project();
+  	var project = new Project();
 
-	project.set("name", title);
-	project.set("location", location);
-	project.set("longBio", fullDesc);
-	project.set("shortBio", shortDesc);
-	project.set("media", [media]);
-	//project.set("displayPicture", media);
-	project.set("skillsNeeded", skills.split(','));
-	project.set("timeframe", time);
-	project.set("createdAt", Date());
-	project.set("updatedAt", Date());
-	project.set("ACL", "Public Read and Write");
+  	project.set("name", title);
+  	project.set("location", location);
+  	project.set("longBio", fullDesc);
+  	project.set("shortBio", shortDesc);
+  	project.set("media", [media]);
+  	//project.set("displayPicture", media);
+  	project.set("skillsNeeded", skills.split(','));
+  	project.set("timeframe", time);
+  	project.set("createdAt", Date());
+  	project.set("updatedAt", Date());
+  	project.set("ACL", "Public Read and Write");
 
-	project.save(null, {
-	  success: function(project) {
-	    // Execute any logic that should take place after the object is saved.
-	    alert('New object created with objectId: ' + project.id);
-	  },
-	  error: function(project, error) {
-	    // Execute any logic that should take place if the save fails.
-	    // error is a Parse.Error with an error code and message.
-	    alert('Failed to create new object, with error code: ' + error.message);
-	  }
-	});
-	e.preventDefault();
-	return false;
-  })
+  	project.save(null, {
+  	  success: function(project) {
+  	    // Execute any logic that should take place after the object is saved.
+  	    alert('New object created with objectId: ' + project.id);
+  	  },
+  	  error: function(project, error) {
+  	    // Execute any logic that should take place if the save fails.
+  	    // error is a Parse.Error with an error code and message.
+  	    alert('Failed to create new object, with error code: ' + error.message);
+  	  }
+  	});
+
+  	e.preventDefault();
+  	return false;
+  });
 };
 </script>
