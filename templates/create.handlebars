@@ -1,21 +1,21 @@
 <h1 class="title">Create a Project</h1>
 <div class="project-fields">
-	<form>
+	<form id="create">
   		<div class="form-group">
     		<label for="projectTitle">Project Title</label>
-    		<input type="text" class="form-control" id="projectTitle">
+    		<input type="text" class="form-control" name="projectTitle">
   		</div>
   		<div class="form-group">
   			<label for="shortDesc">Short Description (140 characters max)</label>
-    		<textarea class="form-control" rows="3"></textarea>
+    		<textarea class="form-control" name="shortDesc" rows="3"></textarea>
  		</div>
  		<div class="form-group">
   			<label for="fullDesc">Full Description</label>
-    		<textarea class="form-control" rows="3"></textarea>
+    		<textarea class="form-control" name="fullDesc" rows="3"></textarea>
  		</div>
- 		<div class="form-group" id="skills">
+ 		<div class="form-group skills">
     		<label for="skillList">Skills Needed</label>
-    		<input type="text" class="form-control skills-autocomplete" id="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc...." />
+    		<input type="text" class="form-control skills-autocomplete" name="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc...." />
     		<br/>
     		<div class="skill-tags">
 				<span class="tag label label-info">
@@ -24,7 +24,7 @@
 				</span>
 			</div>
   		</div>
-  		<div class="form-group" id="locations">
+  		<div class="form-group locations">
     		<label for="setLocation">Set Location</label>
     		<input type="text" class="form-control" id="setLocation" placeholder="Boston, London, Tokyo, Europe, etc....">
     		<br/>
@@ -64,18 +64,16 @@
 initializeSkillsAutocomplete();
 
 CollabCreate.pageReady.create = function() {
-  jQuery("#skills,#locations").on("click", "a", function(){
-  	jQuery(this).parent().remove();
-  });
+  initializeSkillsRemove();
 
   jQuery('#create').submit(function(e) {
     var title = jQuery('input[name=projectTitle]').val();
-    var shortDesc = jQuery('input[name=shortDesc]').val();
-    var fullDesc = jQuery('input[name=fullDesc]').val();
-    var skills = jQuery('input[name=skillList]').val();
+    var shortDesc = jQuery('textarea[name=shortDesc]').val();
+    var fullDesc = jQuery('textarea[name=fullDesc]').val();
+    //var skills = jQuery('#skillList').val();
     var location = jQuery('input[name=setLocation]').val();
-    var time = jQuery('input[name=timeFrame]').val();
-    var media = jQuery('input[name=media]').val();
+    //var time = jQuery('input[name=timeFrame]').val();
+    //var media = jQuery('input[name=media]').val();
 
     var Project = Parse.Object.extend("Project");
   	var project = new Project();
@@ -84,13 +82,10 @@ CollabCreate.pageReady.create = function() {
   	project.set("location", location);
   	project.set("longBio", fullDesc);
   	project.set("shortBio", shortDesc);
-  	project.set("media", [media]);
+  	//project.set("media", [media]);
   	//project.set("displayPicture", media);
-  	project.set("skillsNeeded", skills.split(','));
-  	project.set("timeframe", time);
-  	project.set("createdAt", Date());
-  	project.set("updatedAt", Date());
-  	project.set("ACL", "Public Read and Write");
+  	//project.set("skillsNeeded", skills);
+  	//project.set("timeframe", time);
 
   	project.save(null, {
   	  success: function(project) {

@@ -1,3 +1,9 @@
+var initializeSkillsRemove = function () {
+    jQuery(".skills,.locations").on("click", "a", function(){
+        jQuery(this).parent().remove();
+    });
+};
+
 var initializeSkillsAutocomplete = function () {
     var CHUNK_SIZE = 1000;
     var skillsQuery = new Parse.Query("Skills").limit(CHUNK_SIZE);
