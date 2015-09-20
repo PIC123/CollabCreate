@@ -1,6 +1,9 @@
 CollabCreate = {};
 CollabCreate.pageReady = {};
 CollabCreate.pageReady.document = function () {
+  // Initialize Parse with app keys
+  Parse.initialize("O9kal43aoqJWQyTT42MOgbf2cWfHgXDmD8fBTQ5F", "uFYtTqDRzVzaYsLdkrmo1OfEIsgwN2ZTzKTAxa6F");
+
   // Render basic page layout
   var compiledTemplate = Handlebars.getTemplate('navbar');
   var navbarHtml = compiledTemplate({ profileUrl : 'images/profile.png' });
@@ -8,6 +11,11 @@ CollabCreate.pageReady.document = function () {
 
   var url = document.location.hash ? document.location.hash.substring(1) : 'home';
   CollabCreate.navigate(url);
+
+  // Load currently active page
+  if (CollabCreate.pageReady.hasOwnProperty(url)) {
+    CollabCreate.pageReady[url]();
+  }
 
   // Trigger page-specific reactions
   jQuery("#render-content").on("navigated", function(e, oldUrl, newUrl) {
@@ -29,6 +37,8 @@ CollabCreate.pageReady.document = function () {
     e.preventDefault();
   });
 };
+
+jQuery(document).ready(CollabCreate.pageReady.document);
 
 CollabCreate.navigate = function(url) {
   if (url == "") {
@@ -52,5 +62,3 @@ CollabCreate.navigate = function(url) {
   document.location.hash = url;
   jQuery('#render-content').trigger("navigated", [oldUrl, url]);
 }
-
-jQuery(document).ready(CollabCreate.pageReady.document);

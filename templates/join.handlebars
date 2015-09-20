@@ -1,0 +1,17 @@
+<h1 class="title">Fuck yo...</h1>
+<input id="whatToFuck">
+
+<script type="text/javascript">
+CollabCreate.pageReady.join = function() {
+  console.log("Skills query being created...");
+  var skillsQuery = new Parse.Query("Skills");
+  console.log("Skills query created");
+  skillsQuery.find().then(function (results) {
+    $( "#whatToFuck" ).autocomplete({
+      source: results
+    });
+  });
+};
+</script>
+
+<p>I'm Rick James, bitch.</p>
