@@ -144,3 +144,12 @@ body > .wrapper > .container {
   right: -18px;
   position: absolute;
 }
+
+.home-wrapper {
+  text-align: center;
+  margin: 0 auto;
+  float: none;
+}
+.home-wrapper .subtitle {
+  margin: 2em 0 1em 0;
+}

@@ -47,8 +47,9 @@ CollabCreate.pageReady.document = function () {
 
   // Render requested page (by anchor) and trigger its pageReady function
   var url = document.location.hash ? document.location.hash.substring(1) : 'home';
-  var authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
-  CollabCreate.navigate(url, { authenticated: authenticated });
+  var params = {};
+  params.authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  CollabCreate.navigate(url, params);
   if (CollabCreate.pageReady.hasOwnProperty(url)) {
     CollabCreate.pageReady[url]();
   }
