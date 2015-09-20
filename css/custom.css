@@ -27,6 +27,39 @@
   margin-bottom: 2px;
 }
 
+.repeater {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+}
+.repeater .projectTile {
+  position: relative;
+  width: 192px;
+  height: 192px;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+}
+.repeater .projectTile img {
+  position: absolute;
+  width: 192px;
+  height: 192px;
+}
+.repeater .projectTile .overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  color: #fff;
+  padding: 12px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  min-height: 1em;
+}
+.repeater .projectTile:hover .overlay {
+  opacity: 100;
+}
+
 footer {
   width: 30%;
   border-top: 1px solid #bbb;

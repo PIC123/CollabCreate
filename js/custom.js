@@ -22,8 +22,8 @@ CollabCreate.renderers.navbar = function() {
     params.username = Parse.User.current().getUsername();
   }
   var compiledTemplate = Handlebars.getTemplate('navbar');
-  var navbarHtml = compiledTemplate(params);
-  jQuery('#render-navbar').html(navbarHtml);
+  var renderedHtml = compiledTemplate(params);
+  jQuery('#render-navbar').html(renderedHtml);
   CollabCreate.renderers.navbarActiveLinks();
 }
 CollabCreate.renderers.navbarActiveLinks = function () {
