@@ -1,3 +1,23 @@
+.help-block {
+  color: #c3c3c3;
+}
+.label {
+  font-weight: 400;
+}
+label .normal {
+  font-weight: normal;
+}
+.label-info {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.panel {
+  background-color: transparent;
+}
+
+.project-fields .form-group {
+  margin-bottom: 3em;
+}
+
 .profile-picture {
   width: 1em;
   height: 1em;
@@ -39,6 +59,10 @@
   margin-right: 0.5em;
   margin-left: 0.5em;
 }
+.repeater .projectTile:first-child,
+.repeater .projectTile:last-child {
+  margin: 0;
+}
 .repeater .projectTile img {
   position: absolute;
   width: 192px;
@@ -65,4 +89,20 @@ footer {
   margin: 2em 0;
   padding-top: 0.5em;
   color: #ccc;
+}
+
+body > .wrapper {
+  background: linear-gradient(0deg, rgba(69, 150, 73, 0.9), rgba(69, 150, 73, 0.6) 100%);
+  min-height: 100%;
+}
+body > .wrapper > .container {
+  color: #fff;
+}
+
+.tile-section {
+  margin-top: 3em;
+}
+
+.tile-section > label {
+  margin-bottom: 1em
 }
