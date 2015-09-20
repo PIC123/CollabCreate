@@ -1,13 +1,13 @@
 <h1 class="title">Create a Project</h1>
 <div class="project-fields">
-	<form>
+	<form id="create">
   		<div class="form-group">
     		<label for="projectTitle">Project Title</label>
-    		<input type="text" class="form-control" id="projectTitle">
+    		<input type="text" class="form-control" name="projectTitle">
   		</div>
   		<div class="form-group">
   			<label for="shortDesc">Short Description (140 characters max)</label>
-    		<textarea class="form-control" rows="3"></textarea>
+    		<textarea class="form-control" name="shortDesc", rows="3"></textarea>
  		</div>
  		<div class="form-group">
   			<label for="fullDesc">Full Description</label>
@@ -15,7 +15,7 @@
  		</div>
  		<div class="form-group">
     		<label for="skillList">Skills Needed</label>
-    		<input type="text" class="form-control" id="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc....">
+    		<input type="text" class="form-control" name="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc....">
     		<br/>
 			<span class="tag label label-info">
 		  		<span>Example Skill1</span>
@@ -32,17 +32,17 @@
   		</div>
   		<div class="form-group">
     		<label for="setLocation">Set Location</label>
-    		<input type="text" class="form-control" id="setLocation" placeholder="Boston, London, Tokyo, Europe, etc....">
+    		<input type="text" class="form-control" name="setLocation" placeholder="Ex: Boston, London, Tokyo, Europe, etc....">
     		<br/>
 			<span class="tag label label-info">
-		  		<span>Earth</span>
+		  		<span>Earth!</span>
 		  		<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a> 
 			</span>
   		</div>
   		<div class="form-group">
   			<label>Time Frame</label><br/>
 	  		<label class="radio-inline">
-			  <input type="radio" name="timeFrame" id="infinite" value="infinite"> Infinte
+			  <input type="radio" name="timeFrame" id="infinite" value="infinite"> Infinte!
 			</label>
 			<label class="radio-inline">
 			  <input type="radio" name="timeFrame" id="oneWeek" value="oneWeek"> ~ a week
@@ -59,7 +59,7 @@
 		</div>
 		<div class="form-group">
     		<label for="media">Attatch Photos</label>
-    		<input type="file" id="media">
+    		<input type="file" name="media">
     		<p class="help-block">The first image uploaded will be used as the profile picture</p>
   		</div>
   		<button type="submit" class="btn btn-default">Create</button>
@@ -79,3 +79,45 @@ CollabCreate.pageReady.create = function() {
 };
 </script>
 
+<script type="text/javascript">
+CollabCreate.pageReady.create = function() {
+  jQuery('#create').submit(function(e) {
+    var title = jQuery('input[name=projectTitle]').val();
+    var shortDesc = jQuery('input[name=shortDesc]').val();
+    var fullDesc = jQuery('input[name=fullDesc]').val();
+    var skills = jQuery('input[name=skillList]').val();
+    var location = jQuery('input[name=setLocation]').val();
+    var time = jQuery('input[name=timeFrame]').val();
+    var media = jQuery('input[name=media]').val();
+
+    var Project = Parse.Object.extend("Project");
+	var project = new Project();
+
+	project.set("name", title);
+	project.set("location", location);
+	project.set("longBio", fullDesc);
+	project.set("shortBio", shortDesc);
+	project.set("media", [media]);
+	//project.set("displayPicture", media);
+	project.set("skillsNeeded", skills.split(','));
+	project.set("timeframe", time);
+	project.set("createdAt", Date());
+	project.set("updatedAt", Date());
+	project.set("ACL", "Public Read and Write");
+
+	project.save(null, {
+	  success: function(project) {
+	    // Execute any logic that should take place after the object is saved.
+	    alert('New object created with objectId: ' + project.id);
+	  },
+	  error: function(project, error) {
+	    // Execute any logic that should take place if the save fails.
+	    // error is a Parse.Error with an error code and message.
+	    alert('Failed to create new object, with error code: ' + error.message);
+	  }
+	});
+	e.preventDefault();
+	return false;
+  })
+};
+</script>
