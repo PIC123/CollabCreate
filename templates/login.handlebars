@@ -19,7 +19,9 @@ CollabCreate.pageReady.login = function() {
     Parse.User.logIn(username, password, {
       success: function(user) {
         // Do stuff after successful login.
-        CollabCreate.navigate("home");
+        var params = {};
+        params.authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+        CollabCreate.navigate("home", params);
         CollabCreate.renderers.navbar();
       },
       error: function(error) {

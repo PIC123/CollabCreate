@@ -51,6 +51,7 @@ label .normal {
   flex-direction: row;
   align-content: center;
   align-items: center;
+  overflow-x: auto;
 }
 .repeater .projectTile {
   position: relative;
@@ -58,6 +59,8 @@ label .normal {
   height: 192px;
   margin-right: 0.5em;
   margin-left: 0.5em;
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 .repeater .projectTile:first-child,
 .repeater .projectTile:last-child {
