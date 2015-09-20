@@ -21,6 +21,23 @@ CollabCreate.renderers.navbar = function() {
   if (params.authenticated) {
     params.username = Parse.User.current().getUsername();
     params.profileUrl = Parse.User.current().get("profilePicture") ? Parse.User.current().get("profilePicture").url() : "";
+    var userSkills = Parse.User.current().get("skills");
+    if (userSkills !== undefined) {
+      userSkills.map(function (skillId) {
+        var retObj = {};
+
+        var skillQuery = new Parse.Query("Skills").equalTo("objectId", skillId);
+        skillQuery.first({
+          success: function(skill) {
+            retObj[skillId] = skill.get("name");
+          },
+          error: function(error) {
+            // The login failed. Check error to see why.
+            document.getElementById("errors").textContent = "Error {0}: {1}".format(error.code, error.message);
+          }
+        });
+      });
+    }
   }
   var compiledTemplate = Handlebars.getTemplate('navbar');
   var renderedHtml = compiledTemplate(params);
