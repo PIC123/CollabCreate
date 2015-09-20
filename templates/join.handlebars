@@ -28,8 +28,12 @@
     <textarea name="bio" placeholder="Enter a short bio about yourself (140 characters or less" maxlength="140" rows="4" class="form-control" />
   </div>
 
-  <div class="form-group">
-    <input type="text" name="skills" placeholder="Add a new skill..." class="form-control" id="skillsAutocomplete" />
+  <div class="form-group skills">
+    <label for="skills">Skills:</label>
+    <input type="text" name="skills" placeholder="Add a new skill..." class="form-control skills-autocomplete" />
+    <br/>
+    <div class="skill-tags">
+    </div>
   </div>
 
   <div class="form-group">
@@ -46,7 +50,6 @@
 </form>
 
 <script type="text/javascript">
-
 var signUpUser = function(newUser, username, password) {
   newUser.signUp(null, {
     success: function(user) {
@@ -70,43 +73,10 @@ var signUpUser = function(newUser, username, password) {
   });
 }
 
+initializeSkillsAutocomplete();
+
 CollabCreate.pageReady.join = function() {
-  var CHUNK_SIZE = 1000;
-  var skillsQuery = new Parse.Query("Skills").limit(CHUNK_SIZE);
-
-  // Add results in chunks (due to max array size return limit of Parse)
-  var results = [];
-  var loadChunk = function (currentSkip) {
-    if (currentSkip !== 0) {
-      skillsQuery.skip(currentSkip);
-    }
-
-    var promise = skillsQuery.find().then(function (skills) {
-      // Add chunk
-      skills.forEach(function (skill) {
-        results.push({"label": skill.get("name"), "value": skill.get("name"),
-          "skillId": skill.id});
-      });
-
-      // Increase skip
-      currentSkip += CHUNK_SIZE;
-
-      // Check if all data loaded
-      if (currentSkip === results.length) {
-        return loadChunk(currentSkip);
-      }
-    });
-
-    return promise;
-  }
-
-  loadChunk(0).then(function () {
-    _.sortBy(results, "label");
-    $( "#skillsAutocomplete" ).autocomplete({
-      source: results
-    });
-  });
-
+  initializeSkillsRemove();
 
   jQuery('#join').submit(function(e) {
     // Recover values
