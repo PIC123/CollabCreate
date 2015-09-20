@@ -20,7 +20,7 @@ CollabCreate.renderers.navbar = function() {
   params.authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
   if (params.authenticated) {
     params.username = Parse.User.current().getUsername();
-    params.profileUrl = Parse.User.current().get("profilePicture").url();
+    params.profileUrl = Parse.User.current().get("profilePicture") ? Parse.User.current().get("profilePicture").url() : "";
   }
   var compiledTemplate = Handlebars.getTemplate('navbar');
   var renderedHtml = compiledTemplate(params);

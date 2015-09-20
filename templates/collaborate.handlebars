@@ -92,7 +92,7 @@ CollabCreate.pageReady.collaborate = function() {
           id: project.id,
           name: project.get('name'),
           shortBio: project.get('shortBio'),
-          imageUrl: project.get('displayPicture') ? project.get('displayPicture')._url : ""
+          imageUrl: project.get('displayPicture') ? project.get('displayPicture').url() : ""
         });
       });
 
