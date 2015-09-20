@@ -1,79 +1,81 @@
 <h1 class="title">Collaborate</h1>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Filters</h3>
-  </div>
-  <div class="panel-body">
-    <form method="post" class="form-horizontal clearfix">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-             <label for="filterForMe" class="control-label col-sm-4">Restrict to my interests</label>
-             <div class="col-sm-8">
-              <input type="checkbox" class="form-control" data-toggle="toggle" id="filterForMe" checked />
+<div class="col-md-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Filters</h3>
+    </div>
+    <div class="panel-body">
+      <form method="post" class="form-horizontal clearfix">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+               <label for="filterForMe" class="control-label col-sm-4">Filter for me</label>
+               <div class="col-sm-8">
+                <input type="checkbox" class="form-control" data-toggle="toggle" id="filterForMe" checked />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="filterSkill" class="control-label col-sm-4">Skill</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="filterSkill" placeholder="e.g. Welding">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="filterLocation" class="control-label col-sm-4">Location</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="filterLocation" placeholder="e.g. Canada">
+              </div>
             </div>
           </div>
-          <div class="form-group">
-             <label for="filterProjectName" class="control-label col-sm-4">Project name</label>
-             <div class="col-sm-8">
-              <input type="text" class="form-control" id="filterProjectName" placeholder="e.g. Super Cool Project">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="filterProjectName" class="control-label col-sm-4">Search for project</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="filterProjectName" placeholder="e.g. Super Cool Project">
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label for="filterSkill" class="control-label col-sm-4">Skill</label>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="control-label col-sm-2">Timeframe</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" id="filterSkill" placeholder="e.g. Welding">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="filterLocation" class="control-label col-sm-4">Location</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" id="filterLocation" placeholder="e.g. Canada">
+              <label class="radio-inline">
+                <input type="radio" name="filterTime" id="filterTimeNone" value="none" checked> all
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="filterTime" id="filterTimeWeek" value="week" checked> a week
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="filterTime" id="filterTimeMonth" value="month"> a month
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="filterTime" id="filterTime6Months" value="6months"> 6 months
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="filterTime" id="filterTimeYear" value="year"> a year
+              </label>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <label class="control-label col-sm-2">Timeframe</label>
-          <div class="col-sm-8">
-            <label class="radio-inline">
-              <input type="radio" name="filterTime" id="filterTimeNone" value="none" checked> all
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="filterTime" id="filterTimeWeek" value="week" checked> a week
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="filterTime" id="filterTimeMonth" value="month"> a month
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="filterTime" id="filterTime6Months" value="6months"> 6 months
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="filterTime" id="filterTimeYear" value="year"> a year
-            </label>
-          </div>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
 
-<div id="recommended">
-  <h3>Recommended for me</h3>
-  <div class="repeater"></div>
-</div>
+    <div class="tile-section" id="recommended">
+      <label class="form-label">Recommended for me</label>
+      <div class="repeater"></div>
+    </div>
 
-<div id="featured">
-  <h3>Featured projects</h3>
-  <div class="repeater"></div>
-</div>
+    <div class="tile-section" id="featured">
+      <label class="form-label">Featured projects</label>
+      <div class="repeater"></div>
+    </div>
 
-<div id="trending">
-  <h3>Trending projects</h3>
-  <div class="repeater"></div>
+    <div class="tile-section" id="trending">
+      <label class="form-label">Trending projects</label>
+      <div class="repeater"></div>
+    </div>
 </div>
 
 <script type="text/javascript">

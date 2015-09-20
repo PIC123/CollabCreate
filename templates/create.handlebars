@@ -1,19 +1,19 @@
 <h1 class="title">Create a Project</h1>
 <div class="project-fields">
-	<form>
+	<form class="col-md-6">
   		<div class="form-group">
     		<label for="projectTitle">Project Title</label>
     		<input type="text" class="form-control" id="projectTitle">
   		</div>
   		<div class="form-group">
-  			<label for="shortDesc">Short Description (140 characters max)</label>
-    		<textarea class="form-control" rows="3"></textarea>
+  			<label for="shortDesc">Short Description <span class="normal">(140 characters max)</span></label>
+    		<textarea class="form-control" rows="2"></textarea>
  		</div>
  		<div class="form-group">
   			<label for="fullDesc">Full Description</label>
-    		<textarea class="form-control" rows="3"></textarea>
+    		<textarea class="form-control" rows="4"></textarea>
  		</div>
- 		<div class="form-group">
+ 		<div class="form-group bottom-spacing">
     		<label for="skillList">Skills Needed</label>
     		<input type="text" class="form-control" id="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc....">
     		<br/>
@@ -30,7 +30,7 @@
 		  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
 			</span>
   		</div>
-  		<div class="form-group">
+  		<div class="form-group bottom-spacing">
     		<label for="setLocation">Set Location</label>
     		<input type="text" class="form-control" id="setLocation" placeholder="Boston, London, Tokyo, Europe, etc....">
     		<br/>
@@ -39,7 +39,7 @@
 		  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
 			</span>
   		</div>
-  		<div class="form-group">
+  		<div class="form-group bottom-spacing">
   			<label>Time Frame</label><br/>
 	  		<label class="radio-inline">
 			  <input type="radio" name="timeFrame" id="infinite" value="infinite"> All
@@ -57,7 +57,7 @@
 			  <input type="radio" name="timeFrame" id="oneYear" value="oneYear"> ~ a year
 			</label>
 		</div>
-		<div class="form-group">
+		<div class="form-group bottom-spacing">
     		<label for="media">Attatch Photos</label>
     		<input type="file" id="media">
     		<p class="help-block">The first image uploaded will be used as the profile picture</p>
