@@ -1,48 +1,42 @@
 <h1 class="title">Create a Project</h1>
 <div class="project-fields">
-	<form id="create">
+	<form>
   		<div class="form-group">
     		<label for="projectTitle">Project Title</label>
-    		<input type="text" class="form-control" name="projectTitle">
+    		<input type="text" class="form-control" id="projectTitle">
   		</div>
   		<div class="form-group">
   			<label for="shortDesc">Short Description (140 characters max)</label>
-    		<textarea class="form-control" name="shortDesc", rows="3"></textarea>
+    		<textarea class="form-control" rows="3"></textarea>
  		</div>
  		<div class="form-group">
   			<label for="fullDesc">Full Description</label>
     		<textarea class="form-control" rows="3"></textarea>
  		</div>
- 		<div class="form-group">
+ 		<div class="form-group" id="skills">
     		<label for="skillList">Skills Needed</label>
-    		<input type="text" class="form-control" name="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc....">
+    		<input type="text" class="form-control" id="skillList" placeholder="Ex: C++, HTML, 3D model, graphic design, etc....">
     		<br/>
-			<span class="tag label label-info">
-		  		<span>Example Skill1</span>
-		  		<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a> 
-			</span>
-			<span class="tag label label-info">
-		  		<span>Example Skill2</span>
-		  		<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a> 
-			</span>
-			<span class="tag label label-info">
-		  		<span>Example Skill3</span>
-		  		<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a> 
-			</span>
+    		<div class="skill-tags">
+				<span class="tag label label-info">
+			  		<span>Example Skill1</span>
+			  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
+				</span>
+			</div>
   		</div>
-  		<div class="form-group">
+  		<div class="form-group" id="locations">
     		<label for="setLocation">Set Location</label>
-    		<input type="text" class="form-control" name="setLocation" placeholder="Ex: Boston, London, Tokyo, Europe, etc....">
+    		<input type="text" class="form-control" id="setLocation" placeholder="Boston, London, Tokyo, Europe, etc....">
     		<br/>
 			<span class="tag label label-info">
 		  		<span>Earth!</span>
-		  		<a><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a> 
+		  		<a class="action"><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
 			</span>
   		</div>
   		<div class="form-group">
   			<label>Time Frame</label><br/>
 	  		<label class="radio-inline">
-			  <input type="radio" name="timeFrame" id="infinite" value="infinite"> Infinte!
+			  <input type="radio" name="timeFrame" id="infinite" value="infinite"> Infinite!
 			</label>
 			<label class="radio-inline">
 			  <input type="radio" name="timeFrame" id="oneWeek" value="oneWeek"> ~ a week
@@ -59,7 +53,7 @@
 		</div>
 		<div class="form-group">
     		<label for="media">Attatch Photos</label>
-    		<input type="file" name="media">
+    		<input type="file" id="media">
     		<p class="help-block">The first image uploaded will be used as the profile picture</p>
   		</div>
   		<button type="submit" class="btn btn-default">Create</button>
@@ -73,6 +67,19 @@ CollabCreate.pageReady.create = function() {
   console.log("Skills query created");
   skillsQuery.find().then(function (results) {
     $( "#skillList" ).autocomplete({
+      select: function(event, ui){
+      	var outerSpan = document.createElement('span');
+      	var innerSpan = document.createElement('span');
+      	var a = document.createElement('a');
+      	var i = document.createElement('i');
+      	jQuery(i).addClass('remove').addClass('glyphicon').addClass('glyphicon-remove-sign').addClass('glyphicon-white');
+      	a.appendChild(i);
+      	jQuery(a).addClass('action').attr('data-value', ui.item.value);
+      	innerSpan.appendChild(a);
+      	innerSpan.textContent = ui.item.label;
+      	outerSpan.appendChild(innerSpan);
+      	jQuery(outerSpan).addClass('tag').addClass('label').addClass('label-info');
+      },
       source: results
     });
   });
@@ -81,6 +88,11 @@ CollabCreate.pageReady.create = function() {
 
 <script type="text/javascript">
 CollabCreate.pageReady.create = function() {
+
+  jQuery("#skills a, #locations a").click(function(){
+  	jQuery(this).parent().remove();
+  })
+
   jQuery('#create').submit(function(e) {
     var title = jQuery('input[name=projectTitle]').val();
     var shortDesc = jQuery('input[name=shortDesc]').val();
