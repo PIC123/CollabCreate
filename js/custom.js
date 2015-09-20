@@ -33,7 +33,8 @@ CollabCreate.pageReady.document = function () {
 
   // Render requested page (by anchor) and trigger its pageReady function
   var url = document.location.hash ? document.location.hash.substring(1) : 'home';
-  CollabCreate.navigate(url);
+  var authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  CollabCreate.navigate(url, { authenticated: authenticated });
   if (CollabCreate.pageReady.hasOwnProperty(url)) {
     CollabCreate.pageReady[url]();
   }
@@ -61,21 +62,21 @@ CollabCreate.pageReady.document = function () {
 
 jQuery(document).ready(CollabCreate.pageReady.document);
 
-CollabCreate.navigate = function(url) {
+CollabCreate.navigate = function(url, params) {
   if (url == "") {
     url = "home";
   }
 
-  console.log('navigating to:', url);
+  console.log('navigating to:', url, params);
   try {
     var compiledTemplate = Handlebars.getTemplate(url);
-    var contentHtml = compiledTemplate({});
+    var contentHtml = compiledTemplate(params || {});
     jQuery('#render-content').html(contentHtml);
   }
   catch (err) {
     console.log('Error retrieving page:', err);
     var compiledTemplate = Handlebars.getTemplate("notfound");
-    var contentHtml = compiledTemplate({});
+    var contentHtml = compiledTemplate(params || {});
     jQuery('#render-content').html(contentHtml);
   }
 
