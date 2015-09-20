@@ -1,49 +1,91 @@
-<form id="editForm">
-  <p id="errors" class="bg-danger"></p>
+<h1 class="title">Edit Your Profile</h1>
+<div class="profile-fields">
+	<form id="profileForm">
+		<div class="form-group">
+  		<label for="name">Name</label>
+  		<input type="text" class="form-control" name="name">
+		</div>
+		<div class="form-group">
+			<label for="bio">Bio (140 characters max)</label>
+  		<textarea class="form-control" name="bio" rows="3"></textarea>
+ 		</div>
+ 		<div class="form-group skills">
+  		<label for="skillList">Skills</label>
+  		<input type="text" class="form-control skills-autocomplete" name="skillList" placeholder="Add a new skill..." />
+  		<br/>
+  		<div class="skill-tags">
+			</div>
+		</div>
+		<div class="form-group locations">
+  		<label for="setLocation">Set Location(s)</label>
+  		<input type="text" class="form-control" name="setLocation" placeholder="e.g. Boston, London, Europe, etc...">
+		</div>
+  	<div class="form-group">
+  		<label for="media">Attach Photos</label>
+  		<input type="file" id="media">
+  		<p class="help-block">The first image uploaded will be used as the profile picture</p>
+		</div>
+		<button type="submit" class="btn btn-default">Update!</button>
+	</form>
+</div>
 
-  <div class="form-group">
-    <label for="username">Username:</label>
-    <input type="text" name="username" class="form-control" />
-  </div>
+<script type="text/javascript">
+initializeSkillsAutocomplete();
+initializeSkillsRemove();
 
-  <div class="form-group">
-    <label for="password">Password:</label>
-    <input type="password" name="password" class="form-control" />
-  </div>
+CollabCreate.pageReady.profile = function() {
 
-  <div class="form-group">
-    <label for="email">Email:</label>
-    <input type="email" name="email" class="form-control" />
-  </div>
+  var authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  if (authenticated) {
+    var name = Parse.User.current().getUsername();
+    var skills = Parse.User.current().get("skills") ? Parse.User.current().get("skills") : "";
+    var bio =  Parse.User.current().get("bio") ? Parse.User.current().get("bio") : "";
+    var location = Parse.User.current().get("location") ? Parse.User.current().get("location") : "";
 
-  <div class="form-group">
-    <label for="location">Location(s):</label>
-    <input type="text" name="location" placeholder="e.g. Boston, London, Europe, etc." class="form-control" />
-  </div>
+    jQuery('input[name=name]').val(name);
+    jQuery('textarea[name=bio]').val(bio);
+    jQuery('input[name=setLocation]').val(location);
+  }
 
-  <div class="form-group">
-    <label for="bio">Bio:</label>
-    <textarea name="bio" placeholder="Enter a short bio about yourself (140 characters or less)" maxlength="140" rows="4" class="form-control" />
-  </div>
+  jQuery('#profileForm').submit(function(e) {
+    var name = jQuery('input[name=name]').val();
+    var shortBio = jQuery('textarea[name=shortBio]').val();
+    var fullBio = jQuery('textarea[name=fullBio]').val();
+    var location = jQuery('input[name=setLocation]').val();
+    //var time = jQuery('input[name=timeFrame]').val();
+    //var media = jQuery('input[name=media]').val();
 
-  <div class="form-group skills">
-    <label for="skills">Skills:</label>
-    <input type="text" name="skills" placeholder="Add a new skill..." class="form-control skills-autocomplete" />
-    <br/>
-    <div class="skill-tags">
-      {{existingSkills}}
-    </div>
-  </div>
+    var skills = [];
+    jQuery(".skill-tags a").each(function () {
+      skills.push(jQuery(this).attr("data-value"));
+    });
 
-  <div class="form-group">
-    <label for="profilePicture">Profile Picture:</label>
-    <input type="file" name="profilePicture" class="form-control" accept="image/*" />
-  </div>
+    var Profile = Parse.Object.extend("Project");
+  	var project = new Project();
 
-  <div class="form-group">
-    <label for="resume">Resume/CV (Optional):</label>
-    <input type="file" name="resume" class="form-control" accept="application/pdf" />
-  </div>
+  	project.set("name", title);
+  	project.set("location", location);
+  	project.set("longBio", fullDesc);
+  	project.set("shortBio", shortDesc);
+  	//project.set("media", [media]);
+  	//project.set("displayPicture", media);
+  	project.set("skillsNeeded", skills);
+  	//project.set("timeframe", time);
 
-  <button type="submit" class="btn btn-default">Save Changes</button>
-</form>
+  	project.save(null, {
+  	  success: function(project) {
+  	    // Execute any logic that should take place after the object is saved.
+  	    alert('New object created with objectId: ' + project.id);
+  	  },
+  	  error: function(project, error) {
+  	    // Execute any logic that should take place if the save fails.
+  	    // error is a Parse.Error with an error code and message.
+  	    alert('Failed to create new object, with error code: ' + error.message);
+  	  }
+  	});
+
+  	e.preventDefault();
+  	return false;
+  });
+};
+</script>
