@@ -1,41 +1,154 @@
-<h1 class="title">Add skills</h1>
-<input id="skillsAutocomplete">
+<h1>Get ready to make the most of projects.</h1>
+
+<form method="post" class="col-md-4" id="join">
+  <p id="errors" class="bg-danger"></p>
+
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" name="username" placeholder="prestigeworldwide" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" name="password" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" name="email" placeholder="brennan@prestigeworldwide.com" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="location">Location:</label>
+    <input type="text" name="location" placeholder="On my dad's boat" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="bio">Bio:</label>
+    <textarea name="bio" placeholder="Enter a short bio about yourself (140 characters or less" maxlength="140" rows="4" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <input type="text" name="skills" placeholder="Add a new skill..." class="form-control" id="skillsAutocomplete" />
+  </div>
+
+  <div class="form-group">
+    <label for="profilePicture">Profile Picture:</label>
+    <input type="file" name="profilePicture" class="form-control" accept="image/*" />
+  </div>
+
+  <div class="form-group">
+    <label for="resume">Resume/CV (Optional):</label>
+    <input type="file" name="resume" class="form-control" accept="application/pdf" />
+  </div>
+
+  <button type="submit" class="btn btn-default">Join</button>
+</form>
 
 <script type="text/javascript">
-CollabCreate.pageReady.join = function() {
-    var CHUNK_SIZE = 1000;
-    var skillsQuery = new Parse.Query("Skills").limit(CHUNK_SIZE);
 
-    // Add results in chunks (due to max array size return limit of Parse)
-    var results = [];
-    var loadChunk = function (currentSkip) {
-        if (currentSkip !== 0) {
-            skillsQuery.skip(currentSkip);
+var signUpUser = function(newUser, username, password) {
+  newUser.signUp(null, {
+    success: function(user) {
+      // User created successfully - log them in now and renavigate to home
+      Parse.User.logIn(username, password, {
+        success: function() {
+          // Do stuff after successful login.
+          CollabCreate.navigate("home");
+          CollabCreate.renderers.navbar();
+        },
+        error: function(error) {
+          // The login failed. Check error to see why.
+          document.getElementById("errors").textContent = "Error {0}: {1}".format(error.code, error.message);
         }
+      });
+    },
+    error: function(error) {
+      // The signup failed. Check error to see why.
+      document.getElementById("errors").textContent = "Error {0}: {1}".format(error.code, error.message);
+    }
+  });
+}
 
-        var promise = skillsQuery.find().then(function (skills) {
-            // Add chunk
-            skills.forEach(function (skill) {
-                results.push({"label": skill.get("name"), "value": skill.id});
-            });
+CollabCreate.pageReady.join = function() {
+  var CHUNK_SIZE = 1000;
+  var skillsQuery = new Parse.Query("Skills").limit(CHUNK_SIZE);
 
-            // Increase skip
-            currentSkip += CHUNK_SIZE;
-
-            // Check if all data loaded
-            if (currentSkip === results.length) {
-                return loadChunk(currentSkip);
-            }
-        });
-
-        return promise;
+  // Add results in chunks (due to max array size return limit of Parse)
+  var results = [];
+  var loadChunk = function (currentSkip) {
+    if (currentSkip !== 0) {
+      skillsQuery.skip(currentSkip);
     }
 
-    loadChunk(0).then(function () {
-        _.sortBy(results, "label");
-        $( "#skillsAutocomplete" ).autocomplete({
-            source: results
-        });
+    var promise = skillsQuery.find().then(function (skills) {
+      // Add chunk
+      skills.forEach(function (skill) {
+        results.push({"label": skill.get("name"), "value": skill.get("name"),
+          "skillId": skill.id});
+      });
+
+      // Increase skip
+      currentSkip += CHUNK_SIZE;
+
+      // Check if all data loaded
+      if (currentSkip === results.length) {
+        return loadChunk(currentSkip);
+      }
     });
+
+    return promise;
+  }
+
+  loadChunk(0).then(function () {
+    _.sortBy(results, "label");
+    $( "#skillsAutocomplete" ).autocomplete({
+      source: results
+    });
+  });
+
+
+  jQuery('#join').submit(function(e) {
+    // Recover values
+    var username = jQuery('input[name=username]').val();
+    var password = jQuery('input[name=password]').val();
+    var email = jQuery('input[name=email]').val();
+    var location = jQuery('input[name=location]').val();
+    var bio = jQuery('textarea[name=bio]').val();
+
+    // Create new user with basic info
+    var newUser = new Parse.User();
+    newUser.set("username", username);
+    newUser.set("password", password);
+    newUser.set("email", email);
+    newUser.set("location", location);
+    newUser.set("bio", bio);
+
+    // Get profile picture
+    var profilePictureUploadControl = jQuery('input[name=profilePicture]')[0];
+    var profilePicture = profilePictureUploadControl.files[0];
+    var profilePictureFile = new Parse.File(username.concat(".jpg"), profilePicture, "image/jpg");
+    profilePictureFile.save().then(function () {
+      newUser.set("profilePicture", profilePictureFile);
+
+      var resumeUploadControl = jQuery('input[name=resume]')[0];
+
+      // Check if resume uploaded (optional)
+      if (resumeUploadControl.files.length > 0) {
+        var resume = resumeUploadControl.files[0];
+        var resumeFile = new Parse.File(username.concat(".pdf"), resume, "application/pdf");
+        resumeFile.save().then(function () {
+          newUser.set("resume", resumeFile);
+          console.log(resumeFile.url());
+          signUpUser(newUser, username, password);
+        });
+      } else {
+        signUpUser(newUser, username, password);
+      }
+    });
+
+    e.preventDefault();
+    return false;
+  });
 }
 </script>
