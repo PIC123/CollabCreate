@@ -3,9 +3,7 @@
 
 <script type="text/javascript">
 CollabCreate.pageReady.join = function() {
-  console.log("Skills query being created...");
   var skillsQuery = new Parse.Query("Skills");
-  console.log("Skills query created");
   skillsQuery.find().then(function (results) {
     $( "#whatToFuck" ).autocomplete({
       source: results

@@ -1,0 +1,7 @@
+<script type="text/javascript">
+CollabCreate.pageReady.logout = function() {
+  Parse.User.logOut();
+  CollabCreate.navigate("home");
+  CollabCreate.renderers.navbar();
+};
+</script>
