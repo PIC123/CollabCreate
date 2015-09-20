@@ -84,15 +84,27 @@ label .normal {
 }
 
 footer {
-  width: 30%;
-  border-top: 1px solid #bbb;
-  margin: 2em 0;
-  padding-top: 0.5em;
+  width: 375px;
   color: #ccc;
+  margin-bottom: 3em;
 }
 
-body > .wrapper {
-  background: linear-gradient(0deg, rgba(69, 150, 73, 0.9), rgba(69, 150, 73, 0.6) 100%);
+footer hr {
+  margin: 2.5em 0 0.5em 0;
+  padding-top: 0.5em;
+  border-top: 1px solid #bbb;
+}
+
+footer .logo {
+  background-image: url('../images/cc.svg');
+  background-size: 385px;
+  background-repeat: no-repeat;
+  background-position: -21px 0px;
+  padding-top: 265px;
+}
+
+body {
+  background: linear-gradient(0deg, rgba(69, 150, 73, 1), rgba(69, 150, 73, 0.5) 100%);
   min-height: 100%;
 }
 body > .wrapper > .container {
@@ -104,5 +116,28 @@ body > .wrapper > .container {
 }
 
 .tile-section > label {
-  margin-bottom: 1em
+  margin-bottom: 1em;
+}
+
+.comps {
+  display: flex;
+  flex-direction: row;
+}
+.comps-outer.container {
+  padding: 0;
+}
+.comps .comp {
+  text-align: center;
+  font-size: 1.7em;
+  position: relative;
+}
+.comps .comp img {
+  width: 285px;
+  margin-bottom: 1em;
+}
+.comps .arrows {
+  font-size: 0.85em;
+  bottom: 9px;
+  right: -18px;
+  position: absolute;
 }
