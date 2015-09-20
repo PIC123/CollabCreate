@@ -52,7 +52,7 @@ CollabCreate.pageReady.document = function () {
       window.open(jQuery(this).attr('href'));
     }
     else {
-      var url = link.attr('href');
+      var url = link.attr('href').substring(1);
       CollabCreate.navigate(url);
     }
     e.preventDefault();
