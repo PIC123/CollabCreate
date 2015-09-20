@@ -53,6 +53,9 @@ CollabCreate.pageReady.document = function () {
   // Setup single-page app navigation
   jQuery('body').on("click", 'a', function(e) {
     var link = jQuery(this);
+    if (link.hasClass('action') || link.hasClass('dropdown-toggle')) {
+      return;
+    }
     if (link.attr('rel') == 'external') {
       window.open(jQuery(this).attr('href'));
     }
