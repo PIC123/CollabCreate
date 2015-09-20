@@ -1,15 +1,41 @@
-<h1 class="title">Fuck yo...</h1>
-<input id="whatToFuck">
+<h1 class="title">Add skills</h1>
+<input id="skillsAutocomplete">
 
 <script type="text/javascript">
 CollabCreate.pageReady.join = function() {
-  var skillsQuery = new Parse.Query("Skills");
-  skillsQuery.find().then(function (results) {
-    $( "#whatToFuck" ).autocomplete({
-      source: results
-    });
-  });
-};
-</script>
+    var CHUNK_SIZE = 1000;
+    var skillsQuery = new Parse.Query("Skills").limit(CHUNK_SIZE);
 
-<p>I'm Rick James, bitch.</p>
+    // Add results in chunks (due to max array size return limit of Parse)
+    var results = [];
+    var loadChunk = function (currentSkip) {
+        if (currentSkip !== 0) {
+            skillsQuery.skip(currentSkip);
+        }
+
+        var promise = skillsQuery.find().then(function (skills) {
+            // Add chunk
+            skills.forEach(function (skill) {
+                results.push({"label": skill.get("name"), "value": skill.id});
+            });
+
+            // Increase skip
+            currentSkip += CHUNK_SIZE;
+
+            // Check if all data loaded
+            if (currentSkip === results.length) {
+                return loadChunk(currentSkip);
+            }
+        });
+
+        return promise;
+    }
+
+    loadChunk(0).then(function () {
+        _.sortBy(results, "label");
+        $( "#skillsAutocomplete" ).autocomplete({
+            source: results
+        });
+    });
+}
+</script>
