@@ -1,5 +1,5 @@
 var initializeSkillsRemove = function () {
-    jQuery(".skills,.locations").on("click", "a", function(){
+    jQuery(".skills,#locations").on("click", "a", function(){
         jQuery(this).parent().remove();
     });
 };
@@ -18,8 +18,7 @@ var initializeSkillsAutocomplete = function () {
         var promise = skillsQuery.find().then(function (skills) {
             // Add chunk
             skills.forEach(function (skill) {
-                results.push({"label": skill.get("name"), "value": skill.get("name"),
-                  "skillId": skill.id});
+                results.push({"label": skill.get("name"), "value": skill.id});
             });
 
             // Increase skip
