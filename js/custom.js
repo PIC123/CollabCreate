@@ -17,9 +17,13 @@ CollabCreate = {};
 
 CollabCreate.renderers = {};
 CollabCreate.renderers.navbar = function() {
-  var authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  var params = { profileUrl : 'images/profile.png' };
+  params.authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  if (params.authenticated) {
+    params.username = Parse.User.current().getUsername();
+  }
   var compiledTemplate = Handlebars.getTemplate('navbar');
-  var navbarHtml = compiledTemplate({ authenticated: authenticated, profileUrl : 'images/profile.png' });
+  var navbarHtml = compiledTemplate(params);
   jQuery('#render-navbar').html(navbarHtml);
 }
 
@@ -33,7 +37,8 @@ CollabCreate.pageReady.document = function () {
 
   // Render requested page (by anchor) and trigger its pageReady function
   var url = document.location.hash ? document.location.hash.substring(1) : 'home';
-  CollabCreate.navigate(url);
+  var authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  CollabCreate.navigate(url, { authenticated: authenticated });
   if (CollabCreate.pageReady.hasOwnProperty(url)) {
     CollabCreate.pageReady[url]();
   }
@@ -48,6 +53,9 @@ CollabCreate.pageReady.document = function () {
   // Setup single-page app navigation
   jQuery('body').on("click", 'a', function(e) {
     var link = jQuery(this);
+    if (link.hasClass('action') || link.hasClass('dropdown-toggle')) {
+      return;
+    }
     if (link.attr('rel') == 'external') {
       window.open(jQuery(this).attr('href'));
     }
@@ -61,21 +69,21 @@ CollabCreate.pageReady.document = function () {
 
 jQuery(document).ready(CollabCreate.pageReady.document);
 
-CollabCreate.navigate = function(url) {
+CollabCreate.navigate = function(url, params) {
   if (url == "") {
     url = "home";
   }
 
-  console.log('navigating to:', url);
+  console.log('navigating to:', url, params);
   try {
     var compiledTemplate = Handlebars.getTemplate(url);
-    var contentHtml = compiledTemplate({});
+    var contentHtml = compiledTemplate(params || {});
     jQuery('#render-content').html(contentHtml);
   }
   catch (err) {
     console.log('Error retrieving page:', err);
     var compiledTemplate = Handlebars.getTemplate("notfound");
-    var contentHtml = compiledTemplate({});
+    var contentHtml = compiledTemplate(params || {});
     jQuery('#render-content').html(contentHtml);
   }
 

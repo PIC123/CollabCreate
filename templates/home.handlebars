@@ -1,7 +1,17 @@
-<h1 class="title">Yay!</h1>
-<p>We're so awesome.</p>
-<script type="text/javascript">
-CollabCreate.pageReady.home = function () {
-	console.log('example action here');
-};
-</script>
+{{#if authenticated}}
+	<h1 class="title">Welcome!</h1>
+	<p>You joined. You're so awesome.</p>
+	<script type="text/javascript">
+	CollabCreate.pageReady.home = function () {
+		console.log('example action here - user is signed in');
+	};
+	</script>
+{{else}}
+	<h1 class="title">Welcome!</h1>
+	<p>We're so awesome. Look at all the cool stuff this site lets you do.</p>
+	<script type="text/javascript">
+	CollabCreate.pageReady.home = function () {
+		console.log('example action here - user is not signed in');
+	};
+	</script>
+{{/if}}
