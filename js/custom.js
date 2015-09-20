@@ -14,7 +14,6 @@ if (!String.prototype.format) {
 
 // Setup our namespace
 CollabCreate = {};
-
 CollabCreate.renderers = {};
 CollabCreate.renderers.navbar = function() {
   var params = { profileUrl : 'images/profile.png' };
@@ -25,6 +24,16 @@ CollabCreate.renderers.navbar = function() {
   var compiledTemplate = Handlebars.getTemplate('navbar');
   var navbarHtml = compiledTemplate(params);
   jQuery('#render-navbar').html(navbarHtml);
+  CollabCreate.renderers.navbarActiveLinks();
+}
+CollabCreate.renderers.navbarActiveLinks = function () {
+  jQuery('#navbar li a').each(function() {
+    var link = jQuery(this);
+    link.parent().removeClass('active');
+    if (link.attr('href') == document.location.hash) {
+      link.parent().addClass('active');
+    }
+  });
 }
 
 CollabCreate.pageReady = {};
@@ -48,6 +57,7 @@ CollabCreate.pageReady.document = function () {
     if (CollabCreate.pageReady.hasOwnProperty(newUrl)) {
       CollabCreate.pageReady[newUrl]();
     }
+    CollabCreate.renderers.navbarActiveLinks();
   });
 
   // Setup single-page app navigation
@@ -70,9 +80,8 @@ CollabCreate.pageReady.document = function () {
 jQuery(document).ready(CollabCreate.pageReady.document);
 
 CollabCreate.navigate = function(url, params) {
-  if (url == "") {
-    url = "home";
-  }
+  url = url || "home";
+  params = params || {};
 
   console.log('navigating to:', url, params);
   try {
