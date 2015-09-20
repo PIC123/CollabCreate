@@ -1,0 +1,34 @@
+<form method="post" class="col-md-4" id="login">
+  <p id="errors" class="bg-danger"></p>
+  <div class="form-group">
+    <label for="username">Username:</label>
+    <input type="text" name="username" placeholder="Email" class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" name="password" placeholder="Password" class="form-control" />
+  </div>
+  <button type="submit" class="btn btn-default">Login</button>
+</form>
+
+<script type="text/javascript">
+CollabCreate.pageReady.login = function() {
+  jQuery('#login').submit(function(e) {
+    var username = jQuery('input[name=username]').val();
+    var password = jQuery('input[name=password]').val();
+    Parse.User.logIn(username, password, {
+      success: function(user) {
+        // Do stuff after successful login.
+        CollabCreate.navigate("home");
+        CollabCreate.renderers.navbar();
+      },
+      error: function(error) {
+        // The login failed. Check error to see why.
+        document.getElementById("errors").textContent = "Error {0}: {1}".format(error.code, error.message);
+      }
+    });
+    e.preventDefault();
+    return false;
+  });
+};
+</script>
