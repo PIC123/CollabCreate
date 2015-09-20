@@ -71,6 +71,7 @@ CollabCreate.pageReady.create = function() {
   skillsQuery.find().then(function (results) {
     $( "#skillList" ).autocomplete({
       select: function(event, ui){
+      	console.log("select");
       	var outerSpan = document.createElement('span');
       	var innerSpan = document.createElement('span');
       	var a = document.createElement('a');
@@ -82,6 +83,7 @@ CollabCreate.pageReady.create = function() {
       	innerSpan.textContent = ui.item.label;
       	outerSpan.appendChild(innerSpan);
       	jQuery(outerSpan).addClass('tag').addClass('label').addClass('label-info');
+      	jQuery("div.skill-tags").appendChild(outerSpan);
       },
       source: results
     });
