@@ -73,7 +73,9 @@ CollabCreate.pageReady.document = function () {
     }
     else {
       var url = link.attr('href').substring(1);
-      CollabCreate.navigate(url);
+      var params = {};
+      params.authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+      CollabCreate.navigate(url, params);
     }
     e.preventDefault();
   });
