@@ -17,9 +17,13 @@ CollabCreate = {};
 
 CollabCreate.renderers = {};
 CollabCreate.renderers.navbar = function() {
-  var authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  var params = { profileUrl : 'images/profile.png' };
+  params.authenticated = Parse.User.current() ? Parse.User.current().authenticated() : false;
+  if (params.authenticated) {
+    params.username = Parse.User.current().getUsername();
+  }
   var compiledTemplate = Handlebars.getTemplate('navbar');
-  var navbarHtml = compiledTemplate({ authenticated: authenticated, profileUrl : 'images/profile.png' });
+  var navbarHtml = compiledTemplate(params);
   jQuery('#render-navbar').html(navbarHtml);
 }
 
